@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peak TCS | Employment Pre-Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0F172A;
+            --primary-light: #1E293B;
+            --accent: #3B82F6;
+            --accent-dark: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --border: #E5E7EB;
+            --bg: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+        }
+
+        .header a {
+            color: var(--accent);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E7EB;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #8B5CF6);
+            transition: width 0.3s ease;
+        }
+
+        .form-container {
+            padding: 2.5rem 2rem;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: var(--error);
+            margin-left: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: var(--bg);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .radio-option:hover,
+        .checkbox-option:hover {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .radio-option input[type="radio"]:checked + label,
+        .checkbox-option input[type="checkbox"]:checked + label {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .radio-option label,
+        .checkbox-option label {
+            cursor: pointer;
+            margin-bottom: 0;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .address-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .address-grid .row-2 {
+            grid-template-columns: 2fr 1fr;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .address-grid .row-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .phone-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.5fr;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .phone-input span {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-upload-text {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .file-name {
+            margin-top: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .availability-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .day-availability {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .day-availability h4 {
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .time-slot {
+            flex: 0 0 auto;
+        }
+
+        .time-slot input {
+            display: none;
+        }
+
+        .time-slot label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot input:checked + label {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .time-slot label:hover {
+            border-color: var(--accent);
+        }
+
+        .bio-section {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid #667eea30;
+        }
+
+        .bio-section h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bio-section .subtitle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        button {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .alert-info {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border-left: 4px solid var(--accent);
+        }
+
+        .alert-warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border-left: 4px solid var(--warning);
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 3rem;
+        }
+
+        .score-display {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .score-display h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .score-bar {
+            height: 40px;
+            background: var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #059669);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            color: white;
+            font-weight: 700;
+            transition: width 1s ease;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column-reverse;
+            }
+
+            .address-grid .row-2,
+            .address-grid .row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .time-slots {
+                flex-direction: column;
+            }
+
+            .time-slot label {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Employment Pre-Application</h1>
+            <p>Peak Talent Capital Solutions | Questions? <a href="mailto:team@peaktcs.com">team@peaktcs.com</a></p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <div class="form-container">
+            <form id="applicationForm">
+                
+                <!-- STEP 1: Eligibility -->
+                <div class="step active" data-step="1">
+                    <h2 class="section-title">Eligibility Verification</h2>
+                    <p class="section-subtitle">Let's confirm a few basic requirements to get started.</p>
+
+                    <div class="form-group">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text); font-size: 0.95rem;">
+                            I certify that I am 18 years of age or older <span class="required">*</span>
+                        </div>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="age_yes" name="age_18" value="Yes" required>
+                                <label for="age_yes">Yes</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="age_no" name="age_18" value="No">
+                                <label for="age_no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text); font-size: 0.95rem;">
+                            Are you legally eligible to work in the USA? <span class="required">*</span>
+                        </div>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="eligible_yes" name="work_eligible" value="Yes" required>
+                                <label for="eligible_yes">Yes</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="eligible_no" name="work_eligible" value="No">
+                                <label for="eligible_no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text); font-size: 0.95rem;">
+                            Can you provide proof of eligibility upon request? <span class="required">*</span>
+                        </div>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="proof_yes" name="proof_eligible" value="Yes" required>
+                                <label for="proof_yes">Yes</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="proof_no" name="proof_eligible" value="No">
+                                <label for="proof_no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dl_number">Driver License Number (for verification) <span class="required">*</span></label>
+                        <input type="text" id="dl_number" name="dl_number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dl_state">Driver License State <span class="required">*</span></label>
+                        <input type="text" id="dl_state" name="dl_state" required>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Basic Information -->
+                <div class="step" data-step="2">
+                    <h2 class="section-title">Basic Information</h2>
+                    <p class="section-subtitle">Tell us about yourself.</p>
+
+                    <div class="form-group">
+                        <label for="legal_name">Legal Name (First, Middle, Last - include Jr., Sr., III, etc.) <span class="required">*</span></label>
+                        <input type="text" id="legal_name" name="legal_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address (Physical street address - NO PO Box) <span class="required">*</span></label>
+                        <div class="address-grid">
+                            <input type="text" id="address_1" name="address_1" placeholder="Street Address" required>
+                            <input type="text" id="address_2" name="address_2" placeholder="Address Line 2 (Optional)">
+                            <div class="row-2">
+                                <input type="text" id="city" name="city" placeholder="City" required>
+                                <input type="text" id="state" name="state" placeholder="State" required>
+                            </div>
+                            <div class="row-3">
+                                <input type="text" id="zip" name="zip" placeholder="Zip Code" required>
+                                <select id="country" name="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="United States" selected>United States</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Mexico">Mexico</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <div class="phone-input">
+                            <input type="tel" id="phone_1" name="phone_1" maxlength="3" placeholder="555" required>
+                            <span>-</span>
+                            <input type="tel" id="phone_2" name="phone_2" maxlength="3" placeholder="123" required>
+                            <span>-</span>
+                            <input type="tel" id="phone_3" name="phone_3" maxlength="4" placeholder="4567" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emergency_contact">Emergency Contact (First and Last Name) <span class="required">*</span></label>
+                        <input type="text" id="emergency_contact" name="emergency_contact" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Emergency Contact Phone Number <span class="required">*</span></label>
+                        <div class="phone-input">
+                            <input type="tel" id="emerg_phone_1" name="emerg_phone_1" maxlength="3" placeholder="555" required>
+                            <span>-</span>
+                            <input type="tel" id="emerg_phone_2" name="emerg_phone_2" maxlength="3" placeholder="123" required>
+                            <span>-</span>
+                            <input type="tel" id="emerg_phone_3" name="emerg_phone_3" maxlength="4" placeholder="4567" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hear_about">How did you hear about us? <span class="required">*</span></label>
+                        <select id="hear_about" name="hear_about" required>
+                            <option value="">Select One</option>
+                            <option value="Peak Website">Peak Website</option>
+                            <option value="Search Engine">Search Engine (Google, Bing, etc.)</option>
+                            <option value="Job Posting Site">Job Posting Site (Indeed, Monster, etc.)</option>
+                            <option value="Social Media">Social Media</option>
+                            <option value="Radio, Newspaper, TV">Radio, Newspaper, TV</option>
+                            <option value="Dept. of Labor">Dept. of Labor</option>
+                            <option value="Job Fair">Job Fair / Event</option>
+                            <option value="Client Referral">Client Referral</option>
+                            <option value="Company Referral">Company Referral</option>
+                            <option value="Friend Referral">Friend Referral</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referral_name">If referred, please list who</label>
+                        <input type="text" id="referral_name" name="referral_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salary_expectation">Salary/Pay Expectation <span class="required">*</span></label>
+                        <input type="text" id="salary_expectation" name="salary_expectation" placeholder="e.g., $18/hour or $40,000/year" required>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Availability -->
+                <div class="step" data-step="3">
+                    <h2 class="section-title">Availability</h2>
+                    <p class="section-subtitle">Let us know when you're available to work.</p>
+
+                    <div class="form-group">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text); font-size: 0.95rem;">
+                            Job Type Desired <span class="required">*</span>
+                        </div>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="job_full" name="job_type" value="Full Time (40+ hours/week)" required>
+                                <label for="job_full">Full Time (40+ hours/week)</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="job_part" name="job_type" value="Part Time (20-39 hours/week)">
+                                <label for="job_part">Part Time (20-39 hours/week)</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="job_occasional" name="job_type" value="Occasional (under 20 hours/week)">
+                                <label for="job_occasional">Occasional (under 20 hours/week)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="start_date">Date Available to Start <span class="required">*</span></label>
+                        <input type="date" id="start_date" name="start_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferred_position">Preferred Position (Optional)</label>
+                        <input type="text" id="preferred_position" name="preferred_position" placeholder="Leave blank if this is a general application">
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>Weekly Availability:</strong> If you have open availability, ONLY select "Open Availability" for each day.
+                    </div>
+
+                    <div class="availability-grid">
+                        <div class="day-availability">
+                            <h4>Monday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_6-9" name="monday" value="6am-9am" required>
+                                    <label for="mon_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_9-12" name="monday" value="9am-12pm">
+                                    <label for="mon_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_12-3" name="monday" value="12pm-3pm">
+                                    <label for="mon_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_3-6" name="monday" value="3pm-6pm">
+                                    <label for="mon_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_6-9pm" name="monday" value="6pm-9pm">
+                                    <label for="mon_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_9-12am" name="monday" value="9pm-12am">
+                                    <label for="mon_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_overnight" name="monday" value="Overnight">
+                                    <label for="mon_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_open" name="monday" value="Open Availability">
+                                    <label for="mon_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="mon_not" name="monday" value="Not Available">
+                                    <label for="mon_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-availability">
+                            <h4>Tuesday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_6-9" name="tuesday" value="6am-9am" required>
+                                    <label for="tue_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_9-12" name="tuesday" value="9am-12pm">
+                                    <label for="tue_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_12-3" name="tuesday" value="12pm-3pm">
+                                    <label for="tue_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_3-6" name="tuesday" value="3pm-6pm">
+                                    <label for="tue_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_6-9pm" name="tuesday" value="6pm-9pm">
+                                    <label for="tue_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_9-12am" name="tuesday" value="9pm-12am">
+                                    <label for="tue_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_overnight" name="tuesday" value="Overnight">
+                                    <label for="tue_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_open" name="tuesday" value="Open Availability">
+                                    <label for="tue_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="tue_not" name="tuesday" value="Not Available">
+                                    <label for="tue_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-availability">
+                            <h4>Wednesday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_6-9" name="wednesday" value="6am-9am" required>
+                                    <label for="wed_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_9-12" name="wednesday" value="9am-12pm">
+                                    <label for="wed_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_12-3" name="wednesday" value="12pm-3pm">
+                                    <label for="wed_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_3-6" name="wednesday" value="3pm-6pm">
+                                    <label for="wed_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_6-9pm" name="wednesday" value="6pm-9pm">
+                                    <label for="wed_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_9-12am" name="wednesday" value="9pm-12am">
+                                    <label for="wed_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_overnight" name="wednesday" value="Overnight">
+                                    <label for="wed_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_open" name="wednesday" value="Open Availability">
+                                    <label for="wed_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="wed_not" name="wednesday" value="Not Available">
+                                    <label for="wed_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-availability">
+                            <h4>Thursday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_6-9" name="thursday" value="6am-9am" required>
+                                    <label for="thu_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_9-12" name="thursday" value="9am-12pm">
+                                    <label for="thu_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_12-3" name="thursday" value="12pm-3pm">
+                                    <label for="thu_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_3-6" name="thursday" value="3pm-6pm">
+                                    <label for="thu_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_6-9pm" name="thursday" value="6pm-9pm">
+                                    <label for="thu_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_9-12am" name="thursday" value="9pm-12am">
+                                    <label for="thu_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_overnight" name="thursday" value="Overnight">
+                                    <label for="thu_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_open" name="thursday" value="Open Availability">
+                                    <label for="thu_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="thu_not" name="thursday" value="Not Available">
+                                    <label for="thu_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-availability">
+                            <h4>Friday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_6-9" name="friday" value="6am-9am" required>
+                                    <label for="fri_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_9-12" name="friday" value="9am-12pm">
+                                    <label for="fri_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_12-3" name="friday" value="12pm-3pm">
+                                    <label for="fri_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_3-6" name="friday" value="3pm-6pm">
+                                    <label for="fri_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_6-9pm" name="friday" value="6pm-9pm">
+                                    <label for="fri_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_9-12am" name="friday" value="9pm-12am">
+                                    <label for="fri_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_overnight" name="friday" value="Overnight">
+                                    <label for="fri_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_open" name="friday" value="Open Availability">
+                                    <label for="fri_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="fri_not" name="friday" value="Not Available">
+                                    <label for="fri_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-availability">
+                            <h4>Saturday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_6-9" name="saturday" value="6am-9am" required>
+                                    <label for="sat_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_9-12" name="saturday" value="9am-12pm">
+                                    <label for="sat_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_12-3" name="saturday" value="12pm-3pm">
+                                    <label for="sat_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_3-6" name="saturday" value="3pm-6pm">
+                                    <label for="sat_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_6-9pm" name="saturday" value="6pm-9pm">
+                                    <label for="sat_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_9-12am" name="saturday" value="9pm-12am">
+                                    <label for="sat_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_overnight" name="saturday" value="Overnight">
+                                    <label for="sat_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_open" name="saturday" value="Open Availability">
+                                    <label for="sat_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sat_not" name="saturday" value="Not Available">
+                                    <label for="sat_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="day-availability">
+                            <h4>Sunday <span class="required">*</span></h4>
+                            <div class="time-slots">
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_6-9" name="sunday" value="6am-9am" required>
+                                    <label for="sun_6-9">6am-9am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_9-12" name="sunday" value="9am-12pm">
+                                    <label for="sun_9-12">9am-12pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_12-3" name="sunday" value="12pm-3pm">
+                                    <label for="sun_12-3">12pm-3pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_3-6" name="sunday" value="3pm-6pm">
+                                    <label for="sun_3-6">3pm-6pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_6-9pm" name="sunday" value="6pm-9pm">
+                                    <label for="sun_6-9pm">6pm-9pm</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_9-12am" name="sunday" value="9pm-12am">
+                                    <label for="sun_9-12am">9pm-12am</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_overnight" name="sunday" value="Overnight">
+                                    <label for="sun_overnight">Overnight</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_open" name="sunday" value="Open Availability">
+                                    <label for="sun_open">Open</label>
+                                </div>
+                                <div class="time-slot">
+                                    <input type="radio" id="sun_not" name="sunday" value="Not Available">
+                                    <label for="sun_not">Not Available</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Work Capacity Assessment (BIO Screening) -->
+                <div class="step" data-step="4">
+                    <h2 class="section-title">Work Capacity Assessment</h2>
+                    <p class="section-subtitle">These questions help us understand how you approach work challenges.</p>
+
+                    <div class="bio-section">
+                        <h3>📊 Understanding Your Work Style</h3>
+                        <p class="subtitle">There are no "right" answers - we're looking for honest self-assessment about how you work.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio_1">When working on a difficult task, how do you typically respond when you hit obstacles? <span class="required">*</span></label>
+                        <select id="bio_1" name="bio_1" required>
+                            <option value="">Select one...</option>
+                            <option value="5">I push through obstacles and figure out solutions on my own</option>
+                            <option value="4">I try to solve it myself first, then ask for help if needed</option>
+                            <option value="3">I usually need guidance when I get stuck</option>
+                            <option value="2">I often wait for someone to tell me what to do next</option>
+                            <option value="1">I prefer tasks where I'm unlikely to encounter obstacles</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio_2">Describe a time when you had to keep working on something repetitive or boring for an extended period. How did you handle it? <span class="required">*</span></label>
+                        <textarea id="bio_2" name="bio_2" required placeholder="Share a specific example..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio_3">When you receive critical feedback about your work, what's your typical response? <span class="required">*</span></label>
+                        <select id="bio_3" name="bio_3" required>
+                            <option value="">Select one...</option>
+                            <option value="5">I actively seek feedback and use it to improve immediately</option>
+                            <option value="4">I listen carefully and make corrections</option>
+                            <option value="3">I sometimes get defensive but eventually make changes</option>
+                            <option value="2">I find critical feedback discouraging</option>
+                            <option value="1">I prefer to work in situations where I won't receive negative feedback</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio_4">If someone interrupts you while you're focused on a task, how does this affect your work? <span class="required">*</span></label>
+                        <select id="bio_4" name="bio_4" required>
+                            <option value="">Select one...</option>
+                            <option value="5">I can handle interruptions and quickly get back on track</option>
+                            <option value="4">Minor interruptions don't bother me much</option>
+                            <option value="3">I need a few minutes to refocus after interruptions</option>
+                            <option value="2">Interruptions significantly disrupt my productivity</option>
+                            <option value="1">I have trouble completing tasks if interrupted</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio_5">Tell us about a mistake you made at work or school. What did you do about it? <span class="required">*</span></label>
+                        <textarea id="bio_5" name="bio_5" required placeholder="Describe the situation and your response..."></textarea>
+                    </div>
+                </div>
+
+                <!-- STEP 5: Experience & Education -->
+                <div class="step" data-step="5">
+                    <h2 class="section-title">Experience & Education</h2>
+                    <p class="section-subtitle">Tell us about your background.</p>
+
+                    <div class="alert alert-info">
+                        <strong>Don't have a resume?</strong> Peak offers Custom Resume Builder service starting at $25. Upload a document stating your interest and basic experience, and we'll contact you for a free consultation.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resume">Upload Resume (Optional)</label>
+                        <div class="file-upload" id="fileUploadArea">
+                            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+                            <div class="file-upload-text">
+                                Click to upload or drag and drop<br>
+                                <small>PDF, DOC, or DOCX (Max 10MB)</small>
+                            </div>
+                            <div class="file-name" id="fileName"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="work_experience">Previous Work Experience <span class="required">*</span></label>
+                        <textarea id="work_experience" name="work_experience" required placeholder="Please list three (3) previous work experiences. If you don't have three, list as many as applicable. Include employer name, position, dates, and key responsibilities."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="references">Professional References <span class="required">*</span></label>
+                        <textarea id="references" name="references" required placeholder="Please list three (3) professional references. Include name, relationship (boss/coworker/etc.), company, and phone number."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education">Highest Level of Education <span class="required">*</span></label>
+                        <select id="education" name="education" required>
+                            <option value="">Select one...</option>
+                            <option value="Some High School">Some High School</option>
+                            <option value="High School Diploma or GED">High School Diploma or GED</option>
+                            <option value="Postsecondary non-degree">Postsecondary non-degree</option>
+                            <option value="Some College / Currently Enrolled">Some College / Currently Enrolled</option>
+                            <option value="Associate's Degree">Associate's Degree</option>
+                            <option value="Bachelor's Degree">Bachelor's Degree</option>
+                            <option value="Master's Degree">Master's Degree</option>
+                            <option value="Doctoral or Professional Degree">Doctoral or Professional Degree</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skills">What makes you a great applicant?</label>
+                        <textarea id="skills" name="skills" placeholder="Tell us about your skills, abilities, and other relevant information we should consider."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="certifications">Professional Licenses or Certifications</label>
+                        <textarea id="certifications" name="certifications" placeholder="List any relevant licenses or certifications you hold."></textarea>
+                    </div>
+                </div>
+
+                <!-- STEP 6: Review & Submit -->
+                <div class="step" data-step="6">
+                    <h2 class="section-title">Review & Submit</h2>
+                    <p class="section-subtitle">Please review the EEO statement and certify your application.</p>
+
+                    <div class="alert alert-warning">
+                        <strong>Peak is an Equal Opportunity Employer</strong><br><br>
+                        It is the policy of Peak Employment Solutions, LLC to provide equal employment opportunity (EEO) to all persons regardless of age, color, national origin, citizenship status, physical or mental disability, race, religion, creed, gender, sex, sexual orientation, gender identity and/or expression, genetic information, marital status, status with regard to public assistance, veteran status, or any other characteristic protected by federal, state or local law. Peak will provide reasonable accommodations for qualified individuals with disabilities.
+                    </div>
+
+                    <div class="form-group">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text); font-size: 0.95rem;">
+                            Certification <span class="required">*</span>
+                        </div>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="cert_agree" name="certification" value="I agree" required>
+                                <label for="cert_agree">I agree - All information submitted is true to the best of my knowledge</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="cert_disagree" name="certification" value="I do not agree">
+                                <label for="cert_disagree">I do not agree</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="button-group">
+                    <button type="button" class="btn-secondary" id="prevBtn" style="display: none;">← Previous</button>
+                    <button type="button" class="btn-primary" id="nextBtn">Next →</button>
+                    <button type="submit" class="btn-primary" id="submitBtn" style="display: none;">Submit Application</button>
+                </div>
+            </form>
+
+            <!-- Loading Screen -->
+            <div class="loading" id="loadingScreen">
+                <div class="spinner"></div>
+                <h3>Submitting your application...</h3>
+                <p>Please wait while we process your information.</p>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="success-screen" id="successScreen">
+                <div class="success-icon">✓</div>
+                <h2 class="section-title">Application Submitted Successfully!</h2>
+                <p style="color: var(--text-light); margin: 1rem 0 2rem;">Thank you for applying to Peak Talent Capital Solutions.</p>
+                
+                <div class="score-display" id="scoreDisplay">
+                    <h3>Your Work Capacity Score</h3>
+                    <div class="score-bar">
+                        <div class="score-fill" id="scoreFill" style="width: 0%">
+                            <span id="scoreText">0%</span>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-light);" id="scoreMessage"></p>
+                </div>
+
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                    <h4 style="margin-bottom: 0.5rem;">What happens next?</h4>
+                    <p style="color: var(--text-light); font-size: 0.95rem;" id="nextSteps"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Form state management
+        let currentStep = 1;
+        const totalSteps = 6;
+        let formData = {};
+
+        // Auto-save to localStorage
+        function autoSave() {
+            const form = document.getElementById('applicationForm');
+            const formDataObj = new FormData(form);
+            const data = {};
+            for (let [key, value] of formDataObj.entries()) {
+                data[key] = value;
+            }
+            localStorage.setItem('peakApplication', JSON.stringify(data));
+        }
+
+        // Load saved data
+        function loadSaved() {
+            const saved = localStorage.getItem('peakApplication');
+            if (saved) {
+                const data = JSON.parse(saved);
+                for (let key in data) {
+                    const input = document.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        if (input.type === 'radio') {
+                            const radio = document.querySelector(`[name="${key}"][value="${data[key]}"]`);
+                            if (radio) radio.checked = true;
+                        } else {
+                            input.value = data[key];
+                        }
+                    }
+                }
+            }
+        }
+
+        // Auto-save on input change
+        document.getElementById('applicationForm').addEventListener('change', autoSave);
+        document.getElementById('applicationForm').addEventListener('input', autoSave);
+
+        // Load saved data on page load
+        window.addEventListener('load', loadSaved);
+
+        // Make radio/checkbox options clickable
+        document.querySelectorAll('.radio-option, .checkbox-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                // Don't double-trigger if clicking the input directly
+                if (e.target.tagName !== 'INPUT') {
+                    const input = option.querySelector('input');
+                    if (input) {
+                        input.checked = true;
+                        // Trigger change event for validation and auto-save
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }
+            });
+        });
+
+        // Phone number auto-tab
+        function setupPhoneAutoTab() {
+            const phoneInputs = [
+                ['phone_1', 'phone_2'],
+                ['phone_2', 'phone_3'],
+                ['emerg_phone_1', 'emerg_phone_2'],
+                ['emerg_phone_2', 'emerg_phone_3']
+            ];
+
+            phoneInputs.forEach(([current, next]) => {
+                const currentInput = document.getElementById(current);
+                const nextInput = document.getElementById(next);
+                if (currentInput && nextInput) {
+                    currentInput.addEventListener('input', (e) => {
+                        if (e.target.value.length === e.target.maxLength) {
+                            nextInput.focus();
+                        }
+                    });
+                }
+            });
+        }
+
+        setupPhoneAutoTab();
+
+        // File upload handling
+        const fileInput = document.getElementById('resume');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileName = document.getElementById('fileName');
+
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.style.borderColor = 'var(--accent)';
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.style.borderColor = 'var(--border)';
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.style.borderColor = 'var(--border)';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                fileName.textContent = files[0].name;
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileName.textContent = e.target.files[0].name;
+            }
+        });
+
+        // Step navigation
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`[data-step="${step}"]`).classList.add('active');
+            
+            // Update progress bar
+            const progress = ((step - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update buttons
+            document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = step === totalSteps ? 'none' : 'block';
+            document.getElementById('submitBtn').style.display = step === totalSteps ? 'block' : 'none';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function validateStep(step) {
+            const currentStepEl = document.querySelector(`[data-step="${step}"]`);
+            const requiredInputs = currentStepEl.querySelectorAll('[required]');
+            
+            for (let input of requiredInputs) {
+                if (!input.checkValidity()) {
+                    input.reportValidity();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentStep--;
+            showStep(currentStep);
+        });
+
+        // Calculate BIO score
+        function calculateBIOScore(formData) {
+            let score = 0;
+            let maxScore = 20; // 4 multiple choice (5 points each)
+            
+            // Multiple choice questions
+            const bioScores = [
+                parseInt(formData.bio_1) || 0,
+                parseInt(formData.bio_3) || 0,
+                parseInt(formData.bio_4) || 0
+            ];
+            
+            score = bioScores.reduce((a, b) => a + b, 0);
+            
+            // Text responses - simple scoring based on length and keywords
+            const textResponses = [formData.bio_2, formData.bio_5];
+            textResponses.forEach(response => {
+                if (response && response.length > 50) {
+                    score += 1;
+                }
+                if (response && response.length > 150) {
+                    score += 1;
+                }
+                // Bonus for certain keywords indicating maturity
+                const positiveKeywords = ['learned', 'improved', 'solution', 'responsibility', 'corrected', 'feedback', 'growth'];
+                positiveKeywords.forEach(keyword => {
+                    if (response && response.toLowerCase().includes(keyword)) {
+                        score += 0.5;
+                    }
+                });
+            });
+            
+            maxScore += 5; // Adding text response points
+            
+            return Math.min(Math.round((score / maxScore) * 100), 100);
+        }
+
+        // Form submission
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+            // Show loading screen
+            document.getElementById('applicationForm').style.display = 'none';
+            document.getElementById('loadingScreen').classList.add('active');
+
+            // Collect form data
+            const formElement = document.getElementById('applicationForm');
+            const formDataObj = new FormData(formElement);
+            const data = {};
+            
+            for (let [key, value] of formDataObj.entries()) {
+                data[key] = value;
+            }
+
+            // Add timestamp
+            data.submitted_at = new Date().toISOString();
+
+            // Calculate BIO score
+            const bioScore = calculateBIOScore(data);
+            data.bio_score = bioScore;
+
+            // Determine routing
+            let routing = '';
+            let message = '';
+            let nextSteps = '';
+            
+            if (bioScore >= 75) {
+                routing = 'Priority - High Capacity';
+                message = 'Excellent! Your responses indicate strong work capacity and psychological maturity.';
+                nextSteps = 'Our team will prioritize your application and contact you within 2-3 business days to discuss immediate opportunities.';
+            } else if (bioScore >= 50) {
+                routing = 'Standard - Good Potential';
+                message = 'Good! Your responses show solid work fundamentals with room for development.';
+                nextSteps = 'We will review your application and contact you within 5-7 business days. You may also be invited to participate in our working interview program.';
+            } else {
+                routing = 'Development - Needs Support';
+                message = 'Thank you for your honesty. Your responses suggest you may benefit from our developmental programs.';
+                nextSteps = 'We will review your application for positions that include training and mentorship. We may also contact you about our workforce development initiatives.';
+            }
+            
+            data.routing_category = routing;
+
+            // Format data for Google Sheets
+            const sheetData = {
+                timestamp: data.submitted_at,
+                bio_score: bioScore,
+                routing: routing,
+                name: data.legal_name,
+                email: data.email,
+                phone: `${data.phone_1}-${data.phone_2}-${data.phone_3}`,
+                address: `${data.address_1}, ${data.city}, ${data.state} ${data.zip}`,
+                age_18: data.age_18,
+                work_eligible: data.work_eligible,
+                proof_eligible: data.proof_eligible,
+                dl_number: data.dl_number,
+                dl_state: data.dl_state,
+                emergency_contact: data.emergency_contact,
+                emergency_phone: `${data.emerg_phone_1}-${data.emerg_phone_2}-${data.emerg_phone_3}`,
+                hear_about: data.hear_about,
+                referral: data.referral_name,
+                salary_expectation: data.salary_expectation,
+                job_type: data.job_type,
+                start_date: data.start_date,
+                preferred_position: data.preferred_position,
+                monday: data.monday,
+                tuesday: data.tuesday,
+                wednesday: data.wednesday,
+                thursday: data.thursday,
+                friday: data.friday,
+                saturday: data.saturday,
+                sunday: data.sunday,
+                bio_1: data.bio_1,
+                bio_2: data.bio_2,
+                bio_3: data.bio_3,
+                bio_4: data.bio_4,
+                bio_5: data.bio_5,
+                work_experience: data.work_experience,
+                references: data.references,
+                education: data.education,
+                skills: data.skills,
+                certifications: data.certifications,
+                certification: data.certification
+            };
+
+            // IMPORTANT: Replace this URL with your Google Apps Script Web App URL
+            // After deploying the script, you'll get a URL that looks like:
+            // https://script.google.com/macros/s/AKfycbx.../exec
+            const GOOGLE_SHEETS_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+
+            try {
+                // Submit to Google Sheets
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(sheetData)
+                });
+
+                // Note: 'no-cors' mode means we won't get a response, but the data will be sent
+                // Wait a moment for submission to process
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // Hide loading, show success
+                document.getElementById('loadingScreen').classList.remove('active');
+                document.getElementById('successScreen').classList.add('active');
+
+                // Animate score
+                setTimeout(() => {
+                    document.getElementById('scoreFill').style.width = bioScore + '%';
+                    document.getElementById('scoreText').textContent = bioScore + '%';
+                }, 500);
+
+                // Set messages
+                document.getElementById('scoreMessage').textContent = message;
+                document.getElementById('nextSteps').textContent = nextSteps;
+
+                // Clear saved data
+                localStorage.removeItem('peakApplication');
+
+                // Log to console for testing
+                console.log('Application Data:', sheetData);
+
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                alert('There was an error submitting your application. Please try again or contact team@peaktcs.com for assistance.');
+                document.getElem

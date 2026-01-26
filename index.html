@@ -515,7 +515,7 @@
     <div class="container">
         <div class="header">
             <h1>Employment Pre-Application</h1>
-            <p>Peak Talent Capital Solutions | Questions? <a href="mailto:team@peaktcs.com">team@peaktcs.com</a></p>
+            <p>Peak Talent Capital Solutions | Questions? <a href="/cdn-cgi/l/email-protection#6c18090d012c1c090d07180f1f420f0301"><span class="__cf_email__" data-cfemail="6c18090d012c1c090d07180f1f420f0301">[email&#160;protected]</span></a></p>
         </div>
 
         <div class="progress-bar">
@@ -1197,7 +1197,7 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Form state management
         let currentStep = 1;
         const totalSteps = 6;
@@ -1330,22 +1330,35 @@
         }
 
         function validateStep(step) {
+            console.log('validateStep called for step:', step);
             const currentStepEl = document.querySelector(`[data-step="${step}"]`);
+            console.log('Current step element:', currentStepEl);
+            
             const requiredInputs = currentStepEl.querySelectorAll('[required]');
+            console.log('Found required inputs:', requiredInputs.length);
             
             for (let input of requiredInputs) {
+                console.log('Checking input:', input.name, 'Valid:', input.checkValidity(), 'Value:', input.value);
                 if (!input.checkValidity()) {
+                    console.log('Input failed validation:', input.name);
                     input.reportValidity();
                     return false;
                 }
             }
+            console.log('All inputs valid!');
             return true;
         }
 
         document.getElementById('nextBtn').addEventListener('click', () => {
+            console.log('Next button clicked! Current step:', currentStep);
+            console.log('Validating step...');
+            
             if (validateStep(currentStep)) {
+                console.log('Validation passed! Moving to next step.');
                 currentStep++;
                 showStep(currentStep);
+            } else {
+                console.log('Validation failed!');
             }
         });
 
@@ -1427,10 +1440,7 @@
             if (bioScore >= 75) {
                 routing = 'Priority - High Capacity';
                 message = 'Excellent! Your responses indicate strong work capacity and psychological maturity.';
-                nextSteps = 'Our team will prioritize your application and contact you within 2-3 business days to discuss immediate opportunities.';
-            } else if (bioScore >= 50) {
-                routing = 'Standard - Good Potential';
-                message = 'Good! Your responses show solid work fundamentals with room for development.';
+                nextStepsmessage = 'Good! Your responses show solid work fundamentals with room for development.';
                 nextSteps = 'We will review your application and contact you within 5-7 business days. You may also be invited to participate in our working interview program.';
             } else {
                 routing = 'Development - Needs Support';
@@ -1525,4 +1535,10 @@
             } catch (error) {
                 console.error('Error submitting application:', error);
                 alert('There was an error submitting your application. Please try again or contact team@peaktcs.com for assistance.');
-                document.getElem
+                document.getElementById('loadingScreen').classList.remove('active');
+                document.getElementById('applicationForm').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

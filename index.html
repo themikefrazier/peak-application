@@ -15,8 +15,8 @@
         :root {
             --primary: #0F172A;
             --primary-light: #1E293B;
-            --accent: #3B82F6;
-            --accent-dark: #2563EB;
+            --accent: #FF6B35;  /* Peak Orange */
+            --accent-dark: #E55A2B;  /* Darker Peak Orange */
             --success: #10B981;
             --warning: #F59E0B;
             --error: #EF4444;
@@ -29,7 +29,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%);
             min-height: 100vh;
             padding: 2rem 1rem;
             color: var(--text);
@@ -74,8 +74,34 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent), #8B5CF6);
+            background: linear-gradient(90deg, var(--accent), #FF8C61);
             transition: width 0.3s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            background: var(--bg-secondary);
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .time-estimate {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .time-estimate svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .step-indicator {
+            font-weight: 600;
+            color: var(--accent);
         }
 
         .form-container {
@@ -153,6 +179,103 @@
         textarea {
             resize: vertical;
             min-height: 120px;
+        }
+
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .char-counter.error {
+            color: var(--error);
+        }
+
+        .help-text-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .help-text-toggle:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .help-text-toggle svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+
+        .help-text-toggle.expanded svg {
+            transform: rotate(180deg);
+        }
+
+        .help-text-content {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: #EFF6FF;
+            border-left: 3px solid var(--accent);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .help-text-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .help-example {
+            margin-top: 0.75rem;
+        }
+
+        .help-example-label {
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 0.25rem;
+        }
+
+        .help-example-bad {
+            font-weight: 600;
+            color: var(--error);
+            margin-bottom: 0.25rem;
+        }
+
+        .help-example-text {
+            font-style: italic;
+            color: var(--text-light);
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
         }
 
         .radio-group,
@@ -455,10 +578,18 @@
 
         @media (max-width: 640px) {
             body {
-                padding: 1rem 0.5rem;
+                padding: 0.5rem;
+            }
+
+            .container {
+                border-radius: 12px;
             }
 
             .form-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header {
                 padding: 2rem 1.5rem;
             }
 
@@ -466,8 +597,44 @@
                 font-size: 1.5rem;
             }
 
+            .progress-info {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
             .button-group {
                 flex-direction: column-reverse;
+                gap: 0.75rem;
+            }
+
+            button {
+                width: 100%;
+                min-height: 48px; /* Better touch target */
+                font-size: 1rem;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"],
+            input[type="file"],
+            select,
+            textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+                min-height: 44px; /* Better touch target */
+            }
+
+            .radio-option,
+            .checkbox-option {
+                min-height: 48px; /* Better touch target */
+                padding: 0.875rem;
+            }
+
+            .radio-option label,
+            .checkbox-option label {
+                font-size: 0.95rem;
             }
 
             .address-grid .row-2,
@@ -482,6 +649,28 @@
             .time-slot label {
                 width: 100%;
                 text-align: center;
+                min-height: 44px;
+            }
+
+            .file-upload {
+                min-height: 120px;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.9rem;
+            }
+
+            textarea {
+                min-height: 100px;
+                padding-bottom: 2rem; /* Space for char counter */
+            }
+
+            .char-counter {
+                font-size: 0.7rem;
             }
         }
 
@@ -520,6 +709,18 @@
 
         <div class="progress-bar">
             <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <div class="progress-info">
+            <div class="step-indicator">
+                <span id="currentStepNum">1</span> of 6
+            </div>
+            <div class="time-estimate">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span id="timeEstimate">~8 minutes remaining</span>
+            </div>
         </div>
 
         <div class="form-container">
@@ -602,6 +803,12 @@
                     <div class="form-group">
                         <label for="email">Email Address <span class="required">*</span></label>
                         <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <!-- Honeypot field for spam protection - hidden from humans -->
+                    <div class="form-group" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true" tabindex="-1">
+                        <label for="website_url">Website (leave blank)</label>
+                        <input type="text" id="website_url" name="website_url" autocomplete="off" tabindex="-1">
                     </div>
 
                     <div class="form-group">
@@ -717,301 +924,168 @@
                     </div>
 
                     <div class="alert alert-info">
-                        <strong>Weekly Availability:</strong> If you have open availability, ONLY select "Open Availability" for each day.
+                        <strong>📅 Your Availability:</strong> For each day, tell us what hours you are available to work. We'll match you with positions that fit your schedule.
                     </div>
 
                     <div class="availability-grid">
                         <div class="day-availability">
                             <h4>Monday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_6-9" name="monday" value="6am-9am" required>
-                                    <label for="mon_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_9-12" name="monday" value="9am-12pm">
-                                    <label for="mon_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_12-3" name="monday" value="12pm-3pm">
-                                    <label for="mon_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_3-6" name="monday" value="3pm-6pm">
-                                    <label for="mon_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_6-9pm" name="monday" value="6pm-9pm">
-                                    <label for="mon_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_9-12am" name="monday" value="9pm-12am">
-                                    <label for="mon_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_overnight" name="monday" value="Overnight">
-                                    <label for="mon_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_open" name="monday" value="Open Availability">
-                                    <label for="mon_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="mon_not" name="monday" value="Not Available">
-                                    <label for="mon_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="mon_all" name="monday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="mon_custom" name="monday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="mon_hours" name="monday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="mon_not" name="monday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
 
                         <div class="day-availability">
                             <h4>Tuesday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_6-9" name="tuesday" value="6am-9am" required>
-                                    <label for="tue_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_9-12" name="tuesday" value="9am-12pm">
-                                    <label for="tue_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_12-3" name="tuesday" value="12pm-3pm">
-                                    <label for="tue_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_3-6" name="tuesday" value="3pm-6pm">
-                                    <label for="tue_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_6-9pm" name="tuesday" value="6pm-9pm">
-                                    <label for="tue_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_9-12am" name="tuesday" value="9pm-12am">
-                                    <label for="tue_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_overnight" name="tuesday" value="Overnight">
-                                    <label for="tue_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_open" name="tuesday" value="Open Availability">
-                                    <label for="tue_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="tue_not" name="tuesday" value="Not Available">
-                                    <label for="tue_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="tue_all" name="tuesday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="tue_custom" name="tuesday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="tue_hours" name="tuesday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="tue_not" name="tuesday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
 
                         <div class="day-availability">
                             <h4>Wednesday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_6-9" name="wednesday" value="6am-9am" required>
-                                    <label for="wed_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_9-12" name="wednesday" value="9am-12pm">
-                                    <label for="wed_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_12-3" name="wednesday" value="12pm-3pm">
-                                    <label for="wed_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_3-6" name="wednesday" value="3pm-6pm">
-                                    <label for="wed_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_6-9pm" name="wednesday" value="6pm-9pm">
-                                    <label for="wed_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_9-12am" name="wednesday" value="9pm-12am">
-                                    <label for="wed_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_overnight" name="wednesday" value="Overnight">
-                                    <label for="wed_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_open" name="wednesday" value="Open Availability">
-                                    <label for="wed_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="wed_not" name="wednesday" value="Not Available">
-                                    <label for="wed_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="wed_all" name="wednesday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="wed_custom" name="wednesday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="wed_hours" name="wednesday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="wed_not" name="wednesday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
 
                         <div class="day-availability">
                             <h4>Thursday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_6-9" name="thursday" value="6am-9am" required>
-                                    <label for="thu_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_9-12" name="thursday" value="9am-12pm">
-                                    <label for="thu_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_12-3" name="thursday" value="12pm-3pm">
-                                    <label for="thu_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_3-6" name="thursday" value="3pm-6pm">
-                                    <label for="thu_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_6-9pm" name="thursday" value="6pm-9pm">
-                                    <label for="thu_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_9-12am" name="thursday" value="9pm-12am">
-                                    <label for="thu_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_overnight" name="thursday" value="Overnight">
-                                    <label for="thu_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_open" name="thursday" value="Open Availability">
-                                    <label for="thu_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="thu_not" name="thursday" value="Not Available">
-                                    <label for="thu_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="thu_all" name="thursday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="thu_custom" name="thursday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="thu_hours" name="thursday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="thu_not" name="thursday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
 
                         <div class="day-availability">
                             <h4>Friday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_6-9" name="friday" value="6am-9am" required>
-                                    <label for="fri_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_9-12" name="friday" value="9am-12pm">
-                                    <label for="fri_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_12-3" name="friday" value="12pm-3pm">
-                                    <label for="fri_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_3-6" name="friday" value="3pm-6pm">
-                                    <label for="fri_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_6-9pm" name="friday" value="6pm-9pm">
-                                    <label for="fri_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_9-12am" name="friday" value="9pm-12am">
-                                    <label for="fri_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_overnight" name="friday" value="Overnight">
-                                    <label for="fri_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_open" name="friday" value="Open Availability">
-                                    <label for="fri_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="fri_not" name="friday" value="Not Available">
-                                    <label for="fri_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="fri_all" name="friday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="fri_custom" name="friday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="fri_hours" name="friday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="fri_not" name="friday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
 
                         <div class="day-availability">
                             <h4>Saturday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_6-9" name="saturday" value="6am-9am" required>
-                                    <label for="sat_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_9-12" name="saturday" value="9am-12pm">
-                                    <label for="sat_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_12-3" name="saturday" value="12pm-3pm">
-                                    <label for="sat_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_3-6" name="saturday" value="3pm-6pm">
-                                    <label for="sat_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_6-9pm" name="saturday" value="6pm-9pm">
-                                    <label for="sat_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_9-12am" name="saturday" value="9pm-12am">
-                                    <label for="sat_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_overnight" name="saturday" value="Overnight">
-                                    <label for="sat_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_open" name="saturday" value="Open Availability">
-                                    <label for="sat_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sat_not" name="saturday" value="Not Available">
-                                    <label for="sat_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="sat_all" name="saturday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="sat_custom" name="saturday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="sat_hours" name="saturday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="sat_not" name="saturday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
 
                         <div class="day-availability">
                             <h4>Sunday <span class="required">*</span></h4>
-                            <div class="time-slots">
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_6-9" name="sunday" value="6am-9am" required>
-                                    <label for="sun_6-9">6am-9am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_9-12" name="sunday" value="9am-12pm">
-                                    <label for="sun_9-12">9am-12pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_12-3" name="sunday" value="12pm-3pm">
-                                    <label for="sun_12-3">12pm-3pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_3-6" name="sunday" value="3pm-6pm">
-                                    <label for="sun_3-6">3pm-6pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_6-9pm" name="sunday" value="6pm-9pm">
-                                    <label for="sun_6-9pm">6pm-9pm</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_9-12am" name="sunday" value="9pm-12am">
-                                    <label for="sun_9-12am">9pm-12am</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_overnight" name="sunday" value="Overnight">
-                                    <label for="sun_overnight">Overnight</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_open" name="sunday" value="Open Availability">
-                                    <label for="sun_open">Open</label>
-                                </div>
-                                <div class="time-slot">
-                                    <input type="radio" id="sun_not" name="sunday" value="Not Available">
-                                    <label for="sun_not">Not Available</label>
-                                </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="sun_all" name="sunday" value="Available all day" required>
+                                    Available all day
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="sun_custom" name="sunday" value="Specific hours">
+                                    Specific hours (enter below)
+                                </label>
+                                <input type="text" id="sun_hours" name="sunday_hours" placeholder="e.g., 7am-3pm, 2pm-10pm, etc." style="margin-top: 0.5rem;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" id="sun_not" name="sunday" value="Not available">
+                                    Not available
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -1041,7 +1115,32 @@
 
                     <div class="form-group">
                         <label for="bio_2">Describe a time when you had to keep working on something repetitive or boring for an extended period. How did you handle it? <span class="required">*</span></label>
-                        <textarea id="bio_2" name="bio_2" required placeholder="Share a specific example..."></textarea>
+                        
+                        <div class="help-text-toggle" data-target="help-bio-2">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            See example
+                        </div>
+                        
+                        <div class="help-text-content" id="help-bio-2">
+                            <div>We want to understand how you maintain focus and effort during monotonous tasks. The best answers include specific details about what you did and how you stayed engaged.</div>
+                            
+                            <div class="help-example">
+                                <div class="help-example-label">✓ Strong Example:</div>
+                                <div class="help-example-text">"At my warehouse job, I spent 6 months scanning boxes daily. I stayed motivated by setting personal efficiency goals and tracking my accuracy rate. I also listened to podcasts to keep mentally engaged while maintaining my scan speed."</div>
+                            </div>
+                            
+                            <div class="help-example">
+                                <div class="help-example-bad">✗ Weak Example:</div>
+                                <div class="help-example-text">"I just did it." or "I worked hard."</div>
+                            </div>
+                        </div>
+                        
+                        <div class="textarea-wrapper">
+                            <textarea id="bio_2" name="bio_2" required placeholder="Share a specific example..." maxlength="1000"></textarea>
+                            <div class="char-counter" data-counter="bio_2">0/1000</div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -1070,7 +1169,32 @@
 
                     <div class="form-group">
                         <label for="bio_5">Tell us about a mistake you made at work or school. What did you do about it? <span class="required">*</span></label>
-                        <textarea id="bio_5" name="bio_5" required placeholder="Describe the situation and your response..."></textarea>
+                        
+                        <div class="help-text-toggle" data-target="help-bio-5">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            See example
+                        </div>
+                        
+                        <div class="help-text-content" id="help-bio-5">
+                            <div>We're looking for honesty and accountability. The best answers show you take responsibility, learn from mistakes, and take action to fix problems.</div>
+                            
+                            <div class="help-example">
+                                <div class="help-example-label">✓ Strong Example:</div>
+                                <div class="help-example-text">"I accidentally entered wrong inventory numbers that caused a shipping delay. I immediately told my supervisor, helped track down the correct items, and created a double-check system to prevent it from happening again."</div>
+                            </div>
+                            
+                            <div class="help-example">
+                                <div class="help-example-bad">✗ Weak Example:</div>
+                                <div class="help-example-text">"I don't really make mistakes." or "It wasn't my fault."</div>
+                            </div>
+                        </div>
+                        
+                        <div class="textarea-wrapper">
+                            <textarea id="bio_5" name="bio_5" required placeholder="Describe the situation and your response..." maxlength="1000"></textarea>
+                            <div class="char-counter" data-counter="bio_5">0/1000</div>
+                        </div>
                     </div>
                 </div>
 
@@ -1202,6 +1326,69 @@
         let currentStep = 1;
         const totalSteps = 6;
         let formData = {};
+        
+        // Time estimates per step (in seconds)
+        const stepTimes = {
+            1: 60,   // Eligibility: 1 minute
+            2: 120,  // Basic Info: 2 minutes
+            3: 90,   // Availability: 1.5 minutes
+            4: 180,  // BIO Assessment: 3 minutes (longest)
+            5: 120,  // Experience: 2 minutes
+            6: 30    // Review: 30 seconds
+        };
+        
+        // Update time estimate
+        function updateTimeEstimate() {
+            let remainingTime = 0;
+            for (let step = currentStep; step <= totalSteps; step++) {
+                remainingTime += stepTimes[step];
+            }
+            
+            const minutes = Math.ceil(remainingTime / 60);
+            const timeText = minutes === 1 ? '~1 minute remaining' : `~${minutes} minutes remaining`;
+            document.getElementById('timeEstimate').textContent = timeText;
+            document.getElementById('currentStepNum').textContent = currentStep;
+        }
+        
+        // Character counter functionality
+        function setupCharCounters() {
+            const textareas = document.querySelectorAll('textarea[maxlength]');
+            textareas.forEach(textarea => {
+                const counter = document.querySelector(`[data-counter="${textarea.id}"]`);
+                if (counter) {
+                    textarea.addEventListener('input', () => {
+                        const current = textarea.value.length;
+                        const max = textarea.maxLength;
+                        counter.textContent = `${current}/${max}`;
+                        
+                        // Change color based on length
+                        counter.classList.remove('warning', 'error');
+                        if (current > max * 0.9) {
+                            counter.classList.add('error');
+                        } else if (current > max * 0.75) {
+                            counter.classList.add('warning');
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Help text toggle functionality
+        function setupHelpTextToggles() {
+            const toggles = document.querySelectorAll('.help-text-toggle');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const targetId = toggle.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    
+                    if (content) {
+                        const isExpanded = content.classList.contains('show');
+                        content.classList.toggle('show');
+                        toggle.classList.toggle('expanded');
+                    }
+                });
+            });
+        }
 
         // Auto-save to localStorage
         function autoSave() {
@@ -1325,9 +1512,15 @@
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.querySelector(`[data-step="${step}"]`).classList.add('active');
             
+            // Track step view for analytics
+            trackStepView(step);
+            
             // Update progress bar
             const progress = ((step - 1) / (totalSteps - 1)) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update time estimate
+            updateTimeEstimate();
             
             // Update buttons
             document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
@@ -1337,6 +1530,58 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
+        // Drop-off tracking
+        const stepTracking = {
+            sessionId: generateSessionId(),
+            steps: [],
+            startTime: new Date().getTime()
+        };
+        
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        function trackStepView(step) {
+            const timestamp = new Date().getTime();
+            const timeOnPrevious = stepTracking.steps.length > 0 
+                ? timestamp - stepTracking.steps[stepTracking.steps.length - 1].timestamp
+                : 0;
+            
+            stepTracking.steps.push({
+                step: step,
+                timestamp: timestamp,
+                timeOnPrevious: timeOnPrevious
+            });
+            
+            // Store in localStorage for analysis
+            localStorage.setItem('stepTracking', JSON.stringify(stepTracking));
+            
+            console.log(`📊 Step ${step} viewed | Time on previous: ${Math.round(timeOnPrevious/1000)}s`);
+        }
+        
+        // Track abandonment when user leaves
+        window.addEventListener('beforeunload', () => {
+            if (currentStep < totalSteps) {
+                const abandonData = {
+                    sessionId: stepTracking.sessionId,
+                    abandonedAt: currentStep,
+                    totalTime: new Date().getTime() - stepTracking.startTime,
+                    stepHistory: stepTracking.steps
+                };
+                
+                // Send abandonment data (beacon for reliability)
+                if (navigator.sendBeacon && typeof GOOGLE_SHEETS_URL !== 'undefined') {
+                    const data = new Blob([JSON.stringify({
+                        type: 'abandonment',
+                        data: abandonData
+                    })], { type: 'application/json' });
+                    navigator.sendBeacon(GOOGLE_SHEETS_URL, data);
+                }
+                
+                console.log('📉 Form abandoned at step', currentStep);
+            }
+        });
 
         function validateStep(step) {
             console.log('validateStep called for step:', step);
@@ -1377,40 +1622,242 @@
         });
 
         // Calculate BIO score
+        // Advanced BIO Scoring: Six Unmeasurables Breakdown
         function calculateBIOScore(formData) {
-            let score = 0;
-            let maxScore = 20; // 4 multiple choice (5 points each)
+            const scores = {
+                initiative: 0,
+                professionalism: 0,
+                ownership: 0,
+                followThrough: 0,
+                interest: 0,
+                presence: 0
+            };
             
-            // Multiple choice questions
-            const bioScores = [
-                parseInt(formData.bio_1) || 0,
-                parseInt(formData.bio_3) || 0,
-                parseInt(formData.bio_4) || 0
+            const maxScores = {
+                initiative: 100,
+                professionalism: 100,
+                ownership: 100,
+                followThrough: 100,
+                interest: 100,
+                presence: 100
+            };
+            
+            // BIO Question 1: Obstacle Response
+            // Maps to: Ownership (50%), Initiative (30%), Follow-Through (20%)
+            const q1Score = parseInt(formData.bio_1) || 0;
+            scores.ownership += (q1Score / 5) * 50;
+            scores.initiative += (q1Score / 5) * 30;
+            scores.followThrough += (q1Score / 5) * 20;
+            
+            // BIO Question 2: Repetitive Work (text response)
+            // Maps to: Follow-Through (40%), Presence (30%), Interest (30%)
+            const q2Text = formData.bio_2 || '';
+            const q2Analysis = analyzeTextResponse(q2Text, ['repetitive', 'boring', 'monotonous']);
+            scores.followThrough += q2Analysis.score * 40;
+            scores.presence += q2Analysis.score * 30;
+            scores.interest += q2Analysis.score * 30;
+            
+            // BIO Question 3: Critical Feedback Response
+            // Maps to: Ownership (40%), Professionalism (40%), Initiative (20%)
+            const q3Score = parseInt(formData.bio_3) || 0;
+            scores.ownership += (q3Score / 5) * 40;
+            scores.professionalism += (q3Score / 5) * 40;
+            scores.initiative += (q3Score / 5) * 20;
+            
+            // BIO Question 4: Interruption Handling
+            // Maps to: Presence (50%), Follow-Through (30%), Professionalism (20%)
+            const q4Score = parseInt(formData.bio_4) || 0;
+            scores.presence += (q4Score / 5) * 50;
+            scores.followThrough += (q4Score / 5) * 30;
+            scores.professionalism += (q4Score / 5) * 20;
+            
+            // BIO Question 5: Mistake Response (text response)
+            // Maps to: Ownership (50%), Professionalism (30%), Initiative (20%)
+            const q5Text = formData.bio_5 || '';
+            const q5Analysis = analyzeTextResponse(q5Text, ['mistake', 'error', 'wrong']);
+            scores.ownership += q5Analysis.score * 50;
+            scores.professionalism += q5Analysis.score * 30;
+            scores.initiative += q5Analysis.score * 20;
+            
+            // Normalize scores to 0-100 range
+            for (let key in scores) {
+                scores[key] = Math.min(Math.round(scores[key]), 100);
+            }
+            
+            // Calculate overall score (average of all six)
+            const overallScore = Math.round(
+                (scores.initiative + scores.professionalism + scores.ownership + 
+                 scores.followThrough + scores.interest + scores.presence) / 6
+            );
+            
+            // Consistency check
+            const consistencyFlags = checkConsistency(formData, scores);
+            
+            // Store detailed breakdown (we'll send this to Google Sheets)
+            return {
+                overall: overallScore,
+                breakdown: scores,
+                consistency: consistencyFlags,
+                // For backward compatibility
+                valueOf: function() { return this.overall; }
+            };
+        }
+        
+        // Advanced text response analysis
+        function analyzeTextResponse(text, contextKeywords = []) {
+            if (!text || text.trim().length === 0) {
+                return { score: 0, flags: ['no_response'] };
+            }
+            
+            let score = 0;
+            const flags = [];
+            const lowerText = text.toLowerCase();
+            
+            // Length scoring (0-0.4 points)
+            if (text.length < 30) {
+                score += 0.1;
+                flags.push('very_short');
+            } else if (text.length < 80) {
+                score += 0.2;
+                flags.push('short');
+            } else if (text.length < 150) {
+                score += 0.3;
+            } else {
+                score += 0.4;
+            }
+            
+            // Specificity - mentions numbers, names, timeframes (0-0.2 points)
+            const hasNumbers = /\d+/.test(text);
+            const hasTimeframe = /(month|week|year|day|hour)s?/i.test(text);
+            if (hasNumbers || hasTimeframe) {
+                score += 0.2;
+            } else {
+                flags.push('lacks_specificity');
+            }
+            
+            // Maturity indicators (0-0.3 points)
+            const maturityKeywords = [
+                'learned', 'improved', 'realized', 'understood', 'discovered',
+                'responsibility', 'accountable', 'ownership',
+                'solution', 'resolved', 'corrected', 'fixed',
+                'feedback', 'growth', 'development', 'better'
             ];
             
-            score = bioScores.reduce((a, b) => a + b, 0);
-            
-            // Text responses - simple scoring based on length and keywords
-            const textResponses = [formData.bio_2, formData.bio_5];
-            textResponses.forEach(response => {
-                if (response && response.length > 50) {
-                    score += 1;
+            let maturityCount = 0;
+            maturityKeywords.forEach(keyword => {
+                if (lowerText.includes(keyword)) {
+                    maturityCount++;
                 }
-                if (response && response.length > 150) {
-                    score += 1;
-                }
-                // Bonus for certain keywords indicating maturity
-                const positiveKeywords = ['learned', 'improved', 'solution', 'responsibility', 'corrected', 'feedback', 'growth'];
-                positiveKeywords.forEach(keyword => {
-                    if (response && response.toLowerCase().includes(keyword)) {
-                        score += 0.5;
-                    }
-                });
             });
             
-            maxScore += 5; // Adding text response points
+            score += Math.min(maturityCount * 0.1, 0.3);
             
-            return Math.min(Math.round((score / maxScore) * 100), 100);
+            // Red flags - negative indicators (subtract points)
+            const redFlags = [
+                { pattern: /\bnot (my|our) fault\b/i, penalty: 0.2, flag: 'blame_shifting' },
+                { pattern: /\b(just|simply) (did|do) it\b/i, penalty: 0.1, flag: 'vague_generic' },
+                { pattern: /\bdon'?t (really |usually )?make mistakes\b/i, penalty: 0.3, flag: 'no_accountability' },
+                { pattern: /\b(boring|stupid|dumb|hate)\b/i, penalty: 0.1, flag: 'negative_language' },
+                { pattern: /\b(idk|dunno|whatever)\b/i, penalty: 0.2, flag: 'dismissive' }
+            ];
+            
+            redFlags.forEach(flag => {
+                if (flag.pattern.test(lowerText)) {
+                    score -= flag.penalty;
+                    flags.push(flag.flag);
+                }
+            });
+            
+            // First-person perspective check (0-0.1 points)
+            const hasFirstPerson = /\b(i|my|me)\b/i.test(text);
+            if (hasFirstPerson) {
+                score += 0.1;
+            } else {
+                flags.push('third_person');
+            }
+            
+            // Clamp score to 0-1 range
+            score = Math.max(0, Math.min(1, score));
+            
+            return { score, flags };
+        }
+        
+        // Consistency checking across answers
+        function checkConsistency(formData, scores) {
+            const flags = [];
+            
+            // Check 1: High self-assessment on handling feedback (Q3) but low ownership score
+            const q3 = parseInt(formData.bio_3) || 0;
+            if (q3 >= 4 && scores.ownership < 50) {
+                flags.push({
+                    type: 'feedback_ownership_mismatch',
+                    severity: 'medium',
+                    message: 'Claims to handle feedback well but low ownership in examples'
+                });
+            }
+            
+            // Check 2: High interruption tolerance (Q4) but low presence score
+            const q4 = parseInt(formData.bio_4) || 0;
+            if (q4 >= 4 && scores.presence < 50) {
+                flags.push({
+                    type: 'interruption_presence_mismatch',
+                    severity: 'medium',
+                    message: 'Claims to handle interruptions well but low presence indicators'
+                });
+            }
+            
+            // Check 3: Obstacle handling (Q1) vs. actual problem-solving in text
+            const q1 = parseInt(formData.bio_1) || 0;
+            const q5Text = (formData.bio_5 || '').toLowerCase();
+            const hasSolution = /\b(fix|solve|correct|address|resolve)\w*/i.test(q5Text);
+            if (q1 >= 4 && !hasSolution && q5Text.length > 50) {
+                flags.push({
+                    type: 'obstacle_action_mismatch',
+                    severity: 'high',
+                    message: 'Claims proactive obstacle handling but mistake story lacks solution focus'
+                });
+            }
+            
+            // Check 4: All dropdown answers are 5s (perfect scores) - possible gaming
+            if (q1 === 5 && q3 === 5 && q4 === 5) {
+                const q2Length = (formData.bio_2 || '').length;
+                const q5Length = (formData.bio_5 || '').length;
+                if (q2Length < 100 || q5Length < 100) {
+                    flags.push({
+                        type: 'perfect_scores_short_answers',
+                        severity: 'high',
+                        message: 'All perfect dropdown scores but minimal text detail - possible gaming'
+                    });
+                }
+            }
+            
+            // Check 5: Text response quality mismatch
+            const q2Analysis = analyzeTextResponse(formData.bio_2 || '');
+            const q5Analysis = analyzeTextResponse(formData.bio_5 || '');
+            
+            if (q2Analysis.flags.includes('very_short') && q5Analysis.flags.includes('very_short')) {
+                flags.push({
+                    type: 'minimal_effort',
+                    severity: 'medium',
+                    message: 'Both text responses are very short - possible lack of engagement'
+                });
+            }
+            
+            // Check 6: Red flags in either text response
+            const allFlags = [...q2Analysis.flags, ...q5Analysis.flags];
+            const redFlagCount = allFlags.filter(f => 
+                ['blame_shifting', 'no_accountability', 'dismissive'].includes(f)
+            ).length;
+            
+            if (redFlagCount >= 2) {
+                flags.push({
+                    type: 'multiple_red_flags',
+                    severity: 'high',
+                    message: 'Multiple concerning patterns in text responses'
+                });
+            }
+            
+            return flags;
         }
 
         // Form submission
@@ -1418,6 +1865,14 @@
             e.preventDefault();
             
             if (!validateStep(currentStep)) {
+                return;
+            }
+
+            // Spam protection: Check honeypot field
+            const honeypot = document.getElementById('website_url');
+            if (honeypot && honeypot.value !== '') {
+                console.log('Spam detected - honeypot field filled');
+                // Silently fail for bots - don't show error
                 return;
             }
 
@@ -1489,9 +1944,12 @@
             // Add timestamp
             data.submitted_at = new Date().toISOString();
 
-            // Calculate BIO score
-            const bioScore = calculateBIOScore(data);
+            // Calculate BIO score with Six Unmeasurables breakdown
+            const bioScoreObj = calculateBIOScore(data);
+            const bioScore = bioScoreObj.overall;
             data.bio_score = bioScore;
+            data.bio_breakdown = bioScoreObj.breakdown;
+            data.consistency_flags = bioScoreObj.consistency;
 
             // Determine routing
             let routing = '';
@@ -1519,6 +1977,16 @@
                 timestamp: data.submitted_at,
                 bio_score: bioScore,
                 routing: routing,
+                // Six Unmeasurables breakdown
+                initiative: bioScoreObj.breakdown.initiative,
+                professionalism: bioScoreObj.breakdown.professionalism,
+                ownership: bioScoreObj.breakdown.ownership,
+                followThrough: bioScoreObj.breakdown.followThrough,
+                interest: bioScoreObj.breakdown.interest,
+                presence: bioScoreObj.breakdown.presence,
+                // Consistency flags (JSON string)
+                consistency_flags: JSON.stringify(bioScoreObj.consistency),
+                consistency_count: bioScoreObj.consistency.length,
                 name: data.legal_name,
                 email: data.email,
                 phone: `${data.phone_1}-${data.phone_2}-${data.phone_3}`,
@@ -1602,6 +2070,14 @@
                 document.getElementById('loadingScreen').classList.remove('active');
                 document.getElementById('applicationForm').style.display = 'block';
             }
+        });
+        
+        // Initialize enhanced features on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupCharCounters();
+            setupHelpTextToggles();
+            updateTimeEstimate();
+            console.log('Enhanced features initialized: Character counters, help text, time estimates');
         });
     </script>
 </body>

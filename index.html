@@ -1222,6 +1222,11 @@
                 for (let key in data) {
                     const input = document.querySelector(`[name="${key}"]`);
                     if (input) {
+                        // Skip file inputs - they can't be restored from localStorage
+                        if (input.type === 'file') {
+                            continue;
+                        }
+                        
                         if (input.type === 'radio') {
                             const radio = document.querySelector(`[name="${key}"][value="${data[key]}"]`);
                             if (radio) radio.checked = true;
@@ -1283,6 +1288,9 @@
         const fileInput = document.getElementById('resume');
         const fileUploadArea = document.getElementById('fileUploadArea');
         const fileName = document.getElementById('fileName');
+        
+        // Store the file separately for drag-and-drop
+        let droppedFile = null;
 
         fileUploadArea.addEventListener('click', () => fileInput.click());
 
@@ -1300,13 +1308,14 @@
             fileUploadArea.style.borderColor = 'var(--border)';
             const files = e.dataTransfer.files;
             if (files.length > 0) {
-                fileInput.files = files;
+                droppedFile = files[0];
                 fileName.textContent = files[0].name;
             }
         });
 
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
+                droppedFile = null; // Clear dropped file if user selects via button
                 fileName.textContent = e.target.files[0].name;
             }
         });
@@ -1422,7 +1431,59 @@
             const data = {};
             
             for (let [key, value] of formDataObj.entries()) {
-                data[key] = value;
+                // Skip the file input - we'll handle it separately
+                if (key !== 'resume') {
+                    data[key] = value;
+                }
+            }
+
+            // Handle resume file upload
+            const fileInput = document.getElementById('resume');
+            let fileToUpload = null;
+            
+            // Check if file was dropped or selected via input
+            if (droppedFile) {
+                fileToUpload = droppedFile;
+            } else if (fileInput.files && fileInput.files[0]) {
+                fileToUpload = fileInput.files[0];
+            }
+            
+            if (fileToUpload) {
+                console.log('Processing resume file:', fileToUpload.name);
+                try {
+                    // Check file size (10MB limit)
+                    if (fileToUpload.size > 10 * 1024 * 1024) {
+                        alert('Resume file is too large. Please use a file smaller than 10MB.');
+                        document.getElementById('loadingScreen').classList.remove('active');
+                        document.getElementById('applicationForm').style.display = 'block';
+                        return;
+                    }
+                    
+                    // Convert file to base64
+                    const base64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            // Remove the data URL prefix to get just the base64 string
+                            const base64String = reader.result.split(',')[1];
+                            resolve(base64String);
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(fileToUpload);
+                    });
+                    
+                    data.resumeFile = base64;
+                    data.resumeFileName = fileToUpload.name;
+                    console.log('Resume converted to base64, size:', base64.length);
+                } catch (error) {
+                    console.error('Error processing resume:', error);
+                    // Continue without resume if there's an error
+                    data.resumeFile = null;
+                    data.resumeFileName = null;
+                }
+            } else {
+                data.resumeFile = null;
+                data.resumeFileName = null;
+                console.log('No resume file uploaded');
             }
 
             // Add timestamp
@@ -1440,7 +1501,10 @@
             if (bioScore >= 75) {
                 routing = 'Priority - High Capacity';
                 message = 'Excellent! Your responses indicate strong work capacity and psychological maturity.';
-                nextStepsmessage = 'Good! Your responses show solid work fundamentals with room for development.';
+                nextSteps = 'Our team will prioritize your application and contact you within 2-3 business days to discuss immediate opportunities.';
+            } else if (bioScore >= 50) {
+                routing = 'Standard - Good Potential';
+                message = 'Good! Your responses show solid work fundamentals with room for development.';
                 nextSteps = 'We will review your application and contact you within 5-7 business days. You may also be invited to participate in our working interview program.';
             } else {
                 routing = 'Development - Needs Support';
@@ -1495,7 +1559,7 @@
             // IMPORTANT: Replace this URL with your Google Apps Script Web App URL
             // After deploying the script, you'll get a URL that looks like:
             // https://script.google.com/macros/s/AKfycbx.../exec
-            const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyluHV785DEhT-ZA1tWi26T9osRG-Dt_h9kvBsGwjIKfch30jGKfvzXMga2K3aynQSO-Q/exec';
+            const GOOGLE_SHEETS_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
 
             try {
                 // Submit to Google Sheets
